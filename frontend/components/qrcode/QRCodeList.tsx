@@ -45,14 +45,14 @@ export default function QRCodeList({ items, onItemSelected }: OrderListProps) {
                                     >
                                         <QRCodeCanvas
                                             value={
-                                                process.env.NEXTBACKED_URL ||
-                                                'http://178.128.26.253' +
-                                                    '/makeorder?bistroId=' +
-                                                    item.bistroId +
-                                                    '&qrcodeId=' +
-                                                    uuidv4() +
-                                                    '&qrcodeName=' +
-                                                    item.name
+                                                (process.env.NEXTAUTH_URL ||
+                                                    'http://localhost') +
+                                                '/makeorder?bistroId=' +
+                                                item.bistroId +
+                                                '&qrcodeId=' +
+                                                uuidv4() +
+                                                '&qrcodeName=' +
+                                                item.name
                                             }
                                             size={200}
                                         />
