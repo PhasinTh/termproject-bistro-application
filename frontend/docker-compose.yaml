@@ -4,12 +4,14 @@ services:
   frontend-svc:
     build: .
     restart: always
+    env_file:
+      - .env
     environment:
       JWT_SECRET_KEY: secret
       JWT_EXPIRATION_TIME: '1d'
       JWT_ISS: eJKgSgQnqnXYXqF8Wl81blzrV2CLhFLs
-      NEXT_PUBLIC_BACKEND_URL: http://everything101.xyz:8000/v1
-      NEXTAUTH_URL: http://everything101.xyz
+      NEXT_PUBLIC_BACKEND_URL: "http://everything101.xyz:8000/v1"
+      NEXTAUTH_URL: "http://everything101.xyz"
       NODE_ENV: 'development'
     ports:
       - "80:3000"
