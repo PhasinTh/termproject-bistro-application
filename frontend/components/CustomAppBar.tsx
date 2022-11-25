@@ -61,7 +61,7 @@ export default function CustomAppBar({ window }: AppBarProps) {
         {
             name: 'setting',
             display: 'Setting',
-            link: '/bistro/setting',
+            link: '/bistro/settings',
             icon: <SettingsIcon />,
         },
     ]

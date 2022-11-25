@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 import { CtxOrReq } from 'next-auth/client/_utils'
 import { getSession } from 'next-auth/react'
 import AppLayout from '@/components/layouts/AppLayout'
-import { IBistro } from './setting'
+import { IBistro } from './settings'
 
 type HomeProps = {
     data: IBistro
