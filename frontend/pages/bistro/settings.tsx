@@ -90,7 +90,7 @@ export default function Setting({ bistro }: SettingProps) {
         }
 
         if (response.data) {
-            // console.log(response.data)
+            setBistroInfo(JSON.stringify(response.data))
             enqueueSnackbar('บันทึกข้อมูลเรียบร้อยแล้ว', { variant: 'success' })
         }
     }
