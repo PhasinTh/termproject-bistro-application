@@ -11,6 +11,7 @@ import Link from 'next/link'
 export default function index() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { data: session } = useSession()
+    // const session = false
 
     return (
         <>
