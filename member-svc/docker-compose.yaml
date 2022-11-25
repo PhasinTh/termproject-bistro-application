@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  member-db:
+    image: postgres:9.6
+    environment:
+      POSTGRES_DB: ${MEMBER_PG_DATABASE:-member_db}
+      POSTGRES_USER: ${MEMBER_PG_USER:-postgres}
+      POSTGRES_PASSWORD: ${MEMBER_PG_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-U",
+          "${MEMBER_PG_PASSWORD:-postgres}"
+        ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: on-failure
+    networks:
+      - member-net
+
+  member-svc:
+    build: .
+    restart: always
+    environment:
+      DB_DRIVER: 'postgres'
+      DB_HOST: member-db
+      DB_DATABASE: ${MEMBER_PG_DATABASE:-member_db}
+      DB_USER: ${MEMBER_PG_USER:-postgres}
+      DB_PASSWORD: ${MEMBER_PG_PASSWORD:-postgres}
+      DB_PORT: 5432
+      JWT_SECRET_KEY: secret
+      JWT_EXPIRATION_TIME: '1d'
+      JWT_ISS: eJKgSgQnqnXYXqF8Wl81blzrV2CLhFLs
+      NODE_ENV: 'development'
+    depends_on:
+      - member-db
+    networks:
+      - api-gateway_kong-net
+      - member-net
+    ports:
+      - "8888:3000"
+
+networks:
+  api-gateway_kong-net:
+    external: true
+  member-net:
+    external: false

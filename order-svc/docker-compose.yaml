@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  order-db:
+    image: postgres:9.6
+    environment:
+      POSTGRES_DB: ${PG_DATABASE:-order_db}
+      POSTGRES_USER: ${PG_USER:-postgres}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${PG_PASSWORD:-postgres}" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: on-failure
+    networks:
+      - order-net
+
+  order-svc:
+    build: .
+    restart: always
+    environment:
+      DB_DRIVER: 'postgres'
+      DB_HOST: order-db
+      DB_DATABASE: ${PG_DATABASE:-order_db}
+      DB_USER: ${PG_USER:-postgres}
+      DB_PASSWORD: ${PG_PASSWORD:-postgres}
+      DB_PORT: 5432
+      NODE_ENV: 'development'
+    depends_on:
+      - order-db
+    networks:
+      - api-gateway_kong-net
+      - order-net
+
+networks:
+  api-gateway_kong-net:
+    external: true
+  order-net:
+    external: false

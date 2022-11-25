@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package menu;
+
+service MenuService {
+  rpc CreateMenu(CreateMenuRequest) returns (Menu) {
+    option (google.api.http) = {
+      post: "/v1/menu-service"
+      body: "*"
+    };
+  }
+  rpc UpdateMenu(Menu) returns (Menu) {
+    option (google.api.http) = {
+      put: "/v1/menu-service/{id}"
+      body: "*"
+    };
+  }
+  rpc DeleteMenu(MenuRequestId) returns (Menu) {
+    option (google.api.http) = {
+      delete: "/v1/menu-service/{id}"
+    };
+  }
+  rpc GetMenu(MenuRequestId) returns (Menu) {
+    option (google.api.http) = {
+      get: "/v1/menu-service/{id}"
+    };
+  }
+  rpc GetMenus(GetMenusRequest) returns (GetMenusResponse) {
+    option (google.api.http) = {
+      get: "/v1/menu-service"
+    };
+  }
+  rpc GetMenusByBistro(GetMenusByBistroRequest) returns (GetMenusResponse) {
+    option (google.api.http) = {
+      get: "/v1/menu-service/bistro/{bistroId}"
+    };
+  }
+}
+
+message Menu {
+ string id = 1;
+ string name = 2;
+ string image = 3;
+ string description = 4;
+ string bistroId = 5;
+ int32 price = 6;
+}
+
+message MenuRequestId {
+  string id = 1;
+}
+
+message GetMenusRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+message Meta {
+  int32 totalItems = 1;
+  int32 itemCount = 2;
+  int32 itemsPerPage = 3;
+  int32 totalPages = 4;
+  int32 currentPage = 5;
+}
+
+message GetMenusByBistroRequest {
+  string bistroId = 1;
+  Meta meta = 2;
+}
+
+message GetMenusResponse {
+  repeated Menu items = 1;
+  GetMenusRequest meta = 2;
+}
+
+message CreateMenuRequest {
+  string name = 1;
+  string image = 2;
+  string description = 3;
+  string bistroId = 4;
+  int32 price = 5;
+}
+
+message UpdateMenu {
+  string id = 1;
+  string name = 2;
+  string image = 3;
+  string description = 4;
+  string bistroId = 5;
+  int32 price = 6;
+}

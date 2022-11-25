@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package order;
+
+service OrderService {
+  rpc GetOrders(GetOrdersRequest) returns (OrderList) {
+    option (google.api.http)   = {
+      get: "/v1/order-service"
+    };
+  }
+  rpc GetOrdersByBistro(RequestBistro) returns (OrderList) {
+    option (google.api.http) = {
+      get: "/v1/order-service/bistro/{bistroId}"
+    };
+  }
+  rpc GetOrdersByQR(RequestQR) returns (Order) {
+    option (google.api.http) = {
+      get: "/v1/order-service/qr/{qrcodeId}"
+    };
+  }
+  // Create
+  rpc CreateOrder(CraeteOrderRequest) returns (Order) {
+    option (google.api.http) = {
+      post: "/v1/order-service"
+      body: "*"
+    };
+  }
+  rpc CreateOrderByQR(CreateByQR) returns (CreateByQRResponse) {
+    option (google.api.http) = {
+      post: "/v1/order-service/qr/create"
+      body: "*"
+    };
+  }
+  // Update
+  rpc PlaceOrder(PlaceOrderRequest) returns (Order) {
+    option (google.api.http) = {
+      put: "/v1/order-service/{orderId}"
+      body: "*"
+    };
+  }
+  rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (Order) {
+    option (google.api.http) = {
+      put: "/v1/order-service/{orderId}/status"
+      body: "*"
+    };
+  }
+  // Delete
+  rpc DeleteItemsByOrder(PlaceOrderRequest) returns (Order) {
+    option (google.api.http) = {
+      post: "/v1/order-service/{orderId}"
+      body: "*"
+    };
+  }
+  rpc DeleteOrder(OrderById) returns (Order) {
+    option (google.api.http) = {
+      delete: "/v1/order-service/{orderId}"
+    };
+  }
+}
+
+message Meta {
+  int32 totalItems = 1;
+  int32 itemCount = 2;
+  int32 itemsPerPage = 3;
+  int32 totalPages = 4;
+  int32 currentPage = 5;
+}
+
+message PaginationRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+message OrderItem {
+ string id = 1;
+ Order order = 2;
+ string menuId = 3;
+ int32 menuPrice = 4;
+ string menuName = 5;
+ string menuImage = 6;
+ int32 quantity = 7;
+}
+
+message Order {
+ string id = 1;
+ string bistroId = 2;
+ string qrcodeId = 3;
+ string qrcodeName = 4;
+ string createAt = 5;
+ string updateAt = 6;
+ string closeOderTimestamp = 7;
+ bool isPaid = 8;
+ repeated OrderItem items = 9;
+}
+
+message OrderList {
+  repeated Order items = 1;
+  Meta meta = 2;
+}
+
+message RequestQR {
+  string qrcodeId = 1;
+  PaginationRequest meta = 2;
+}
+
+message RequestBistro {
+  string bistroId = 1;
+  PaginationRequest meta = 2;
+}
+
+message GetOrdersRequest {
+  PaginationRequest meta = 1;
+}
+
+message CreateByQR {
+ string bistroId = 1;
+ string qrcodeId = 2;
+}
+
+message CreateOrderItem {
+  string menuId = 1;
+  int32 menuPrice = 2;
+  string menuName = 3;
+  string menuImage = 4;
+  int32 quantity = 5;
+}
+
+message CraeteOrderRequest {
+  string bistroId = 1;
+  string qrcodeId = 2;
+  string qrcodeName = 3;
+  repeated CreateOrderItem items = 4;
+}
+
+message CreateByQRResponse {
+  string id = 1;
+}
+
+message OrderById {
+  string id = 1;
+}
+
+message PlaceOrderRequest {
+  string orderId = 1;
+  repeated OrderItem items = 2;
+}
+
+message UpdateOrderStatusRequest {
+  string orderId = 1;
+  bool isPaid  = 2; 
+}

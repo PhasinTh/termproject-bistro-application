@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package qrcode;
+
+service QRCodeService {
+  rpc CreateQRCode(CreateQRCodeRequest) returns (QRCode) {}
+  rpc UpdateQRCode(UpdateQRCodeRequest) returns (QRCode) {}
+  rpc DeleteQRCode(QRCodeRequestId) returns (QRCode) {}
+  rpc GetQRCode(QRCodeRequestId) returns (QRCode) {}
+  rpc GetQRCodes(GetQRCodesRequest) returns (GetQRCodesResponse) {}
+  rpc GetQRCodeByBistro(GetQRByBistroRequest) returns (GetQRCodesResponse) {}
+}
+
+message QRCode {
+ string id = 1;
+ string name = 2;
+ string bistroId = 3;
+}
+
+message QRCodeRequestId {
+  string id = 1;
+}
+
+message GetQRCodesRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+message GetQRByBistroRequest {
+  string bistroId = 1;
+  Meta meta = 2;
+}
+
+message Meta {
+  int32 totalItems = 1;
+  int32 itemCount = 2;
+  int32 itemsPerPage = 3;
+  int32 totalPages = 4;
+  int32 currentPage = 5;
+}
+
+message GetQRCodesResponse {
+  repeated QRCode items = 1;
+  Meta meta = 2;
+}
+
+message CreateQRCodeRequest {
+  string name = 1;
+  string bistroId = 2;
+}
+
+message UpdateQRCodeRequest {
+  string id = 1;
+  string name = 2;
+  string bistroId = 3;
+}

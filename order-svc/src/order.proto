@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package order;
+
+service OrderService {
+  rpc GetOrders(GetOrdersRequest) returns (OrderList) {} 
+  rpc GetOrdersByBistro(RequestBistro) returns (OrderList) {}
+  rpc GetOrdersByQR(RequestQR) returns (Order) {}
+  // Create
+  rpc CreateOrderByQR(CreateByQR) returns (CreateByQRResponse) {}
+  rpc CreateOrder(CraeteOrderRequest) returns (Order) {}
+  // Update
+  rpc PlaceOrder(PlaceOrderRequest) returns (Order) {}
+  rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (Order) {}
+  // Delete
+  rpc DeleteItemsByOrder(PlaceOrderRequest) returns (Order) {}
+  rpc DeleteOrder(OrderById) returns (Order) {}
+}
+
+message Meta {
+  int32 totalItems = 1;
+  int32 itemCount = 2;
+  int32 itemsPerPage = 3;
+  int32 totalPages = 4;
+  int32 currentPage = 5;
+}
+
+message PaginationRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+message OrderItem {
+ string id = 1;
+ Order order = 2;
+ string menuId = 3;
+ int32 menuPrice = 4;
+ string menuName = 5;
+ string menuImage = 6;
+ int32 quantity = 7;
+}
+
+message Order {
+ string id = 1;
+ string bistroId = 2;
+ string qrcodeId = 3;
+ string qrcodeName = 4;
+ string createAt = 5;
+ string updateAt = 6;
+ string closeOderTimestamp = 7;
+ bool isPaid = 8;
+ repeated OrderItem items = 9;
+}
+
+message OrderList {
+  repeated Order items = 1;
+  Meta meta = 2;
+}
+
+message RequestQR {
+  string qrcodeId = 1;
+  PaginationRequest meta = 2;
+}
+
+message RequestBistro {
+  string bistroId = 1;
+  PaginationRequest meta = 2;
+}
+
+message GetOrdersRequest {
+  PaginationRequest meta = 1;
+}
+
+
+message CreateByQR {
+ string bistroId = 1;
+ string qrcodeId = 2;
+}
+
+message CreateByQRResponse {
+  string id = 1;
+}
+
+message OrderById {
+  string id = 1;
+}
+
+message CreateOrderItem {
+  string menuId = 1;
+  int32 menuPrice = 2;
+  string menuName = 3;
+  string menuImage = 4;
+  int32 quantity = 5;
+}
+
+message CraeteOrderRequest {
+  string bistroId = 1;
+  string qrcodeId = 2;
+  string qrcodeName = 3;
+  repeated CreateOrderItem items = 4;
+}
+
+message PlaceOrderRequest {
+  string orderId = 1;
+  repeated OrderItem items = 2;
+}
+
+message UpdateOrderStatusRequest {
+  string orderId = 1;
+  bool isPaid  =2; 
+}

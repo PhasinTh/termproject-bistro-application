@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package bistro;
+
+service BistroService {
+  rpc CreateBistro(CreateBistroRequest) returns (Bistro) {
+    option (google.api.http) = {
+      post: "/v1/bistro-service"
+      body: "*"
+    };
+  }
+
+  rpc GetBistroByOwner(GetBistroByOwnerRequest) returns (Bistro) {
+    option (google.api.http) = {
+      get: "/v1/bistro-service/owner/{ownerId}"
+    };
+  }
+
+  rpc UpdateBistro(Bistro) returns (Bistro) {
+    option (google.api.http) = {
+      put: "/v1/bistro-service/{id}"
+      body: "*"
+    };
+  }
+  rpc DeleteBistro(BistroRequestId) returns (Bistro) {
+    option (google.api.http) = {
+      delete: "/v1/bistro-service/{id}"
+    };
+  }
+  rpc GetBistro(BistroRequestId) returns (Bistro) {
+    option (google.api.http) = {
+      get: "/v1/bistro-service/{id}"
+    };
+  }
+  rpc GetBistros(GetBistrosRequest) returns (GetBistrosResponse) {
+    option (google.api.http) = {
+      get: "/v1/bistro-service"
+    };
+  }
+
+}
+
+message Bistro {
+ string id = 1;
+ string name = 2;
+ string image = 3;
+ string description = 4;
+ string ownerId = 5;
+}
+
+message BistroRequestId {
+  string id = 1;
+}
+
+message GetBistrosRequest {
+  int64 page = 1;
+  int64 limit = 2;
+}
+
+message Meta {
+  int64 totalItems = 1;
+  int64 itemCount = 2;
+  int64 itemsPerPage = 3;
+  int64 totalPages = 4;
+  int64 currentPage = 5;
+}
+
+message GetBistrosResponse {
+  repeated Bistro items = 1;
+  Meta meta = 2;
+}
+
+message CreateBistroRequest {
+  string name = 1;
+  string image = 2;
+  string description = 3;
+  string ownerId = 4;
+}
+
+message UpdateBistro {
+  string id = 1;
+  string name = 2;
+  string image = 3;
+  string description = 4;
+  string ownerId = 5;
+}
+
+message GetBistroByOwnerRequest {
+  string ownerId = 1;
+}
