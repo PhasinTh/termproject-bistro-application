@@ -21,12 +21,12 @@ import {
         port: 587,
         secure: false,
         auth: {
-          user: 'lazybearmadeweb@gmail.com',
-          pass: 'rcikjqmhkqutczqf',
+          user: process.env.SMTP_USER || '',
+          pass: process.env.SMTP_PASSWORD || '',
         },
       },
       defaults: {
-        from: '"noreply" <lazybearmadeweb@gmail.com>',
+        from: '"noreply" <' + (process.env.SMTP_USER || '') + '>',
       },
       template: {
         dir: join(__dirname, 'templates'),

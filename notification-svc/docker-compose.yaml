@@ -6,6 +6,9 @@ services:
     restart: always
     environment:
       DB_URL: ${DB_URL:-mongodb://localhost:27017/notification}
+      RABBITMQ_URL: ${RABBITMQ_URL:-amqp://localhost:5672}
+      SMTP_USER: ${SMTP_USER:-user@localhost.local}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-password}
       NODE_ENV: 'development'
     networks:
       - notification-net
