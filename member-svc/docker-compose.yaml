@@ -37,6 +37,7 @@ services:
       JWT_SECRET_KEY: secret
       JWT_EXPIRATION_TIME: '1d'
       JWT_ISS: eJKgSgQnqnXYXqF8Wl81blzrV2CLhFLs
+      RABBITMQ_URL: ${RABBITMQ_URL:-amqp://localhost:5672}
       NODE_ENV: 'development'
     depends_on:
       - member-db
