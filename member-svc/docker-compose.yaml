@@ -43,6 +43,7 @@ services:
     networks:
       - api-gateway_kong-net
       - member-net
+      - rabbit-mq_rabbitmq-net
     ports:
       - "8888:3000"
 
@@ -51,3 +52,6 @@ networks:
     external: true
   member-net:
     external: false
+  rabbit-mq_rabbitmq-net:
+    external:
+      true

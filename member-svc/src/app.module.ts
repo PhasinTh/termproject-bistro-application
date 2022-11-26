@@ -14,12 +14,12 @@ const db_maps = {
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: db_maps[process.env.DB_DRIVER || 'sqlite'],
+      type: db_maps[process.env.DB_DRIVER || 'postgres'],
       host: process.env.DB_HOST || 'localhost',
       database: process.env.DB_DATABASE || 'member_db',
       username: process.env.DB_USER || 'postgres',
       password: process.env.DB_PASSWORD || 'postgres',
-      port: parseInt(process.env.PORT, 5432) || undefined,
+      port: parseInt(process.env.PORT, 5432) || 5432,
       synchronize: process.env.NODE_ENV != 'production',
       logging: process.env.NODE_ENV != 'production',
       entities: [User],

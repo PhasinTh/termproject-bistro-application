@@ -6,9 +6,24 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
+    ClientsModule.register([
+      {
+        name: 'MAIL_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          queue: 'notification_queue',
+          urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
+          queueOptions: {
+            durable: true,
+            persistence: true,
+          },
+        },
+      },
+    ]),
     UserModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({

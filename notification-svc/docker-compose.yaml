@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  notification-svc:
+    build: .
+    restart: always
+    environment:
+      DB_URL: ${DB_URL:-mongodb://localhost:27017/notification}
+      NODE_ENV: 'development'
+    networks:
+      - notification-net
+      - rabbit-mq_rabbitmq-net
+
+networks:
+  notification-net:
+    driver: bridge
+  rabbit-mq_rabbitmq-net:
+    external:
+      true
