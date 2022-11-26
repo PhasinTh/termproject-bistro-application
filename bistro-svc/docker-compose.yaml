@@ -4,11 +4,11 @@ services:
   bistro-db:
     image: postgres:9.6
     environment:
-      POSTGRES_DB: ${PG_DATABASE:-bistro_db}
-      POSTGRES_USER: ${PG_USER:-postgres}
-      POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-bistro_db}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "${PG_PASSWORD:-postgres}" ]
+      test: [ "CMD", "pg_isready", "-U", "${DB_PASSWORD:-postgres}" ]
       interval: 30s
       timeout: 30s
       retries: 3
@@ -21,11 +21,11 @@ services:
     restart: always
     environment:
       DB_DRIVER: 'postgres'
-      DB_HOST: bistro-db
-      DB_DATABASE: ${PG_DATABASE:-bistro_db}
-      DB_USER: ${PG_USER:-postgres}
-      DB_PASSWORD: ${PG_PASSWORD:-postgres}
-      DB_PORT: 5432
+      DB_HOST: ${DB_HOST:-bistro-db}
+      DB_DATABASE: ${DB_DATABASE:-bistro_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_PORT: ${DB_PORT:-5432}
       NODE_ENV: 'development'
     depends_on:
       - bistro-db

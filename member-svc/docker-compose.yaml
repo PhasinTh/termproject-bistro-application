@@ -4,9 +4,9 @@ services:
   member-db:
     image: postgres:9.6
     environment:
-      POSTGRES_DB: ${MEMBER_PG_DATABASE:-member_db}
-      POSTGRES_USER: ${MEMBER_PG_USER:-postgres}
-      POSTGRES_PASSWORD: ${MEMBER_PG_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-member_db}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     ports:
       - "5432:5432"
     healthcheck:
@@ -15,7 +15,7 @@ services:
           "CMD",
           "pg_isready",
           "-U",
-          "${MEMBER_PG_PASSWORD:-postgres}"
+          "${DB_PASSWORD:-postgres}"
         ]
       interval: 30s
       timeout: 30s
@@ -29,16 +29,16 @@ services:
     restart: always
     environment:
       DB_DRIVER: 'postgres'
-      DB_HOST: member-db
-      DB_DATABASE: ${MEMBER_PG_DATABASE:-member_db}
-      DB_USER: ${MEMBER_PG_USER:-postgres}
-      DB_PASSWORD: ${MEMBER_PG_PASSWORD:-postgres}
-      DB_PORT: 5432
-      JWT_SECRET_KEY: secret
-      JWT_EXPIRATION_TIME: '1d'
+      DB_HOST: ${DB_HOST:-member-db}
+      DB_DATABASE: ${DB_DATABASE:-member_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-secret}
+      JWT_EXPIRATION_TIME: ${JWT_EXPIRATION_TIME:-1d}
       JWT_ISS: eJKgSgQnqnXYXqF8Wl81blzrV2CLhFLs
       RABBITMQ_URL: ${RABBITMQ_URL:-amqp://localhost:5672}
-      NODE_ENV: 'development'
+      NODE_ENV: ${NODE_ENV:-development}
     depends_on:
       - member-db
     networks:
