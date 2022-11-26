@@ -41,6 +41,7 @@ export default NextAuth({
     },
     jwt: {
         secret: process.env.JWT_SECRET_KEY || 'secret',
+        maxAge: 60 * 60 * 24,
     },
     callbacks: {
         jwt: async ({ token, user, account }) => {
