@@ -70,7 +70,7 @@ export default function QRCodeDialog({
                         alignContent: 'center',
                     }}
                 >
-                    <QRCodeSVG
+                    <QRCodeCanvas
                         value={
                             (process.env.NEXTAUTH_URL || 'http://localhost') +
                             '/makeorder?bistroId=' +
