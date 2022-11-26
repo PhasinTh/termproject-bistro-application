@@ -12,7 +12,7 @@ import {
     Typography,
 } from '@mui/material'
 import { CtxOrReq } from 'next-auth/client/_utils'
-import { getCsrfToken, signIn } from 'next-auth/react'
+import { getCsrfToken, getSession, signIn } from 'next-auth/react'
 import LocalDiningIcon from '@mui/icons-material/LocalDining'
 type SigInProps = {
     csrfToken: string
@@ -142,6 +142,15 @@ export default function SignIn({ csrfToken }: SigInProps) {
 }
 
 export async function getServerSideProps(context: CtxOrReq) {
+    const session = await getSession(context)
+    if (session) {
+        return {
+            redirect: {
+                destination: '/bistro',
+                permanent: false,
+            },
+        }
+    }
     const csrfToken = await getCsrfToken(context)
     return {
         props: { csrfToken },

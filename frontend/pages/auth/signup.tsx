@@ -15,7 +15,7 @@ import LocalDiningIcon from '@mui/icons-material/LocalDining'
 import axios from '@/src/axios'
 import { Controller, useForm } from 'react-hook-form'
 import { useSnackbar } from 'notistack'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 
 export default function SignUp() {
     const { enqueueSnackbar } = useSnackbar()
@@ -181,6 +181,17 @@ export default function SignUp() {
 }
 
 export async function getServerSideProps(context: CtxOrReq) {
+    const session = await getSession(context)
+
+    if (session) {
+        return {
+            redirect: {
+                destination: '/bistro',
+                permanent: false,
+            },
+        }
+    }
+
     return {
         props: {},
     }

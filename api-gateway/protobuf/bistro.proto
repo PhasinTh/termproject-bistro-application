@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package bistro;
 
+// import "google/api/annotations.proto";
+
 service BistroService {
   rpc CreateBistro(CreateBistroRequest) returns (Bistro) {
     option (google.api.http) = {
